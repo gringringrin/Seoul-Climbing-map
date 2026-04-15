@@ -1,0 +1,131 @@
+﻿<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>서울 클라이밍 센터 지도</title>
+    <meta name="description" content="서울 클라이밍 센터만 표시하는 로컬 웹사이트입니다.">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="sidebar">
+        <div class="hero">
+          <p class="eyebrow">Seoul Climbing Map</p>
+          <h1>서울 클라이밍 센터 지도</h1>
+          <p class="hero-copy">
+            서울 안의 클라이밍 센터만 보이도록 만든 로컬 지도입니다. 외부 지도 타일 없이 동작해서 첫 화면에
+            Access blocked 문구가 나오지 않습니다.
+          </p>
+        </div>
+
+        <section class="panel">
+          <label class="field-label" for="searchInput">검색</label>
+          <input id="searchInput" class="search-input" type="search" placeholder="센터명, 지역, 브랜드 검색" autocomplete="off">
+          <div class="filter-row">
+            <div>
+              <label class="field-label" for="districtFilter">지역</label>
+              <select id="districtFilter" class="select-input">
+                <option value="all">전체</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="brandFilter">브랜드</label>
+              <select id="brandFilter" class="select-input">
+                <option value="all">전체</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel panel-soft">
+          <div class="section-head">
+            <h2>서울 전용</h2>
+            <span id="resultCount">0곳</span>
+          </div>
+          <p class="panel-copy">
+            서울 실루엣, 한강, 주요 권역 라벨, 센터 마커를 한 화면에 배치했습니다. 마커를 누르면 센터 정보가 바로 뜹니다.
+          </p>
+        </section>
+
+        <section class="panel mini-panel">
+          <div class="section-head">
+            <h2>지도 범례</h2>
+          </div>
+          <div class="legend">
+            <span><i class="legend-dot legend-dot-center"></i> 클라이밍 센터</span>
+            <span><i class="legend-dot legend-dot-river"></i> 한강</span>
+            <span><i class="legend-dot legend-dot-label"></i> 주요 권역</span>
+          </div>
+        </section>
+      </aside>
+
+      <main class="content">
+        <section class="map-panel">
+          <div class="map-header">
+            <div>
+              <p class="eyebrow">Local Seoul Map</p>
+              <h2>서울만 표시</h2>
+            </div>
+            <button id="resetViewButton" class="ghost-button" type="button">전체 보기</button>
+          </div>
+          <div id="map" class="seoul-map" aria-label="서울 클라이밍 센터 지도">
+            <div class="map-base" aria-hidden="true">
+              <img src="./seoul-districts.svg" class="seoul-district-map" alt="">
+              <svg class="river-overlay" viewBox="0 0 800 655" preserveAspectRatio="xMidYMid meet">
+                <path class="river" d="M98 357c51-16 100-11 149-12 41-1 79-14 118-21 53-10 106-4 157 8 54 13 108 27 164 18 35-5 67-20 101-19 25 1 48 8 74 13"></path>
+                <path class="river-glow" d="M98 357c51-16 100-11 149-12 41-1 79-14 118-21 53-10 106-4 157 8 54 13 108 27 164 18 35-5 67-20 101-19 25 1 48 8 74 13"></path>
+              </svg>
+            </div>
+            <div id="districtLayer" class="district-layer"></div>
+            <div id="markerLayer" class="marker-layer"></div>
+            <div id="mapTooltip" class="map-tooltip" hidden></div>
+          </div>
+        </section>
+
+        <section class="list-panel">
+          <div class="section-head">
+            <h2>센터 목록</h2>
+          </div>
+          <div id="gymList" class="gym-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="gymCardTemplate">
+      <article class="gym-card">
+        <div class="gym-card__top">
+          <div>
+            <p class="gym-card__brand"></p>
+            <h3 class="gym-card__name"></h3>
+          </div>
+          <span class="gym-card__district"></span>
+        </div>
+        <p class="gym-card__address"></p>
+        <p class="gym-card__summary"></p>
+        <dl class="gym-card__meta">
+          <div>
+            <dt>가격</dt>
+            <dd class="gym-card__price"></dd>
+          </div>
+          <div>
+            <dt>운영</dt>
+            <dd class="gym-card__hours"></dd>
+          </div>
+          <div>
+            <dt>행사</dt>
+            <dd class="gym-card__event"></dd>
+          </div>
+          <div>
+            <dt>혼잡도</dt>
+            <dd class="gym-card__crowd"></dd>
+          </div>
+        </dl>
+        <div class="gym-card__actions"></div>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
+
